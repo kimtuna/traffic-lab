@@ -2,7 +2,7 @@
 # Go 서버는 호스트에서 `go run .` 으로 돌린다 — 고쳐가며 재시작하기 훨씬 빠르다.
 services:
   prometheus:
-    image: prom/prometheus:v3.1.0
+    image: prom/prometheus:v3.14.0
     container_name: traffic-lab-prometheus
     ports:
       - "9090:9090"
@@ -16,7 +16,7 @@ services:
       - "host.docker.internal:host-gateway"
 
   grafana:
-    image: grafana/grafana:11.5.1
+    image: grafana/grafana:13.2.1
     container_name: traffic-lab-grafana
     ports:
       - "3000:3000"

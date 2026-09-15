@@ -20,6 +20,11 @@ export const options = {
   ],
 
   // 통과/실패 기준. CI에 걸면 이게 그대로 성능 게이트가 된다.
+  // 임계값 실패 시 k6는 종료 코드 99로 끝난다 (통과하면 0).
+  //
+  // ※ 기본 설정(POOL_SIZE=5)에서는 p(95)가 690ms로 **의도적으로 실패한다.**
+  //   게이트가 실제로 막는 걸 보여주기 위한 것이다.
+  //   POOL_SIZE=50 으로 올리면 285ms로 통과한다.
   thresholds: {
     'http_req_duration{endpoint:users}': ['p(95)<500', 'p(99)<1000'],
     'http_req_failed': ['rate<0.01'],
