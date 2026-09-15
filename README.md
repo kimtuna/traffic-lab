@@ -66,6 +66,7 @@ k6 ──부하──> Go 서버 ──/metrics──> Prometheus ──> Grafan
 | [`docs/03-experiments.md`](docs/03-experiments.md) | **실험 기록과 실측 데이터** |
 | [`docs/04-glossary.md`](docs/04-glossary.md) | 용어 사전 |
 | [`docs/05-roadmap.md`](docs/05-roadmap.md) | 단계별 계획 (AI 트리아지까지) |
+| [`docs/06-runbook.md`](docs/06-runbook.md) | **실습 가이드** — 어떻게 테스트하고 무엇을 볼 것인가 |
 | [`docs/adr/`](docs/adr/) | 설계 결정 기록 (ADR) |
 
 ---
@@ -79,8 +80,10 @@ go run .             # 서버 (별도 터미널)
 k6 run k6/load.js    # 부하 (또 다른 터미널)
 ```
 
-- Grafana → http://localhost:3000 → 대시보드 **traffic-lab — RED + 병목**
-- Prometheus → http://localhost:9090 (알럿은 `/alerts`)
+- 대시보드 → http://localhost:3000/d/traffic-lab
+- 알럿 → http://localhost:9090/alerts
+
+**무엇을 봐야 하는지는 [`docs/06-runbook.md`](docs/06-runbook.md)에 정리돼 있다.**
 
 ## 엔드포인트
 
