@@ -38,6 +38,19 @@
 
 자세한 측정 과정과 해석은 [`docs/03-experiments.md`](docs/03-experiments.md).
 
+### closed-loop vs open-loop
+
+같은 서버에 부하 모델만 바꿔 걸었더니 **결론이 정반대로 나왔다.**
+
+| | closed-loop (동시 100명) | open-loop (초당 200건) |
+|---|---:|---:|
+| p99 | 1.16s | **3.32s** |
+| 에러율 | **0.00%** | **7.48%** |
+
+closed-loop만 봤다면 "에러 0건, 배포 가능"이었다.
+실제 사용자 트래픽은 open-loop이다 — 서버가 느려져도 요청은 계속 도착한다.
+→ [실무 규모 테스트](docs/07-production-load-testing.md)
+
 ### 성능 게이트
 
 `k6/load.js`에는 임계값이 걸려 있어 그대로 CI 게이트로 쓸 수 있다.
@@ -67,6 +80,7 @@ k6 ──부하──> Go 서버 ──/metrics──> Prometheus ──> Grafan
 | [`docs/04-glossary.md`](docs/04-glossary.md) | 용어 사전 |
 | [`docs/05-roadmap.md`](docs/05-roadmap.md) | 단계별 계획 (AI 트리아지까지) |
 | [`docs/06-runbook.md`](docs/06-runbook.md) | **실습 가이드** — 어떻게 테스트하고 무엇을 볼 것인가 |
+| [`docs/07-production-load-testing.md`](docs/07-production-load-testing.md) | **실무 규모 테스트** — 장난감 실험실과 실무의 격차 7가지 |
 | [`docs/adr/`](docs/adr/) | 설계 결정 기록 (ADR) |
 
 ---
