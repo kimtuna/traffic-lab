@@ -1,0 +1,12 @@
+global:
+  # 기본값은 15s지만, 학습용으로는 너무 느려서 그래프가 뚝뚝 끊긴다.
+  scrape_interval: 5s
+  evaluation_interval: 5s
+
+rule_files:
+  - alerts.yml
+
+scrape_configs:
+  - job_name: traffic-lab
+    static_configs:
+      - targets: ['localhost:8080']

@@ -1,0 +1,40 @@
+groups:
+  - name: red-metrics
+    rules:
+      # Duration: p99가 1초를 넘으면 30초 뒤 발화
+      - alert: HighP99Latency
+        expr: |
+          histogram_quantile(0.99,
+            sum by (le, path) (rate(http_request_duration_seconds_bucket[1m]))
+          ) > 1
+        for: 30s
+        labels:
+          severity: warning
+        annotations:
+          summary: "{{ $labels.path }} p99 지연이 1초를 넘었습니다"
+          description: "현재 p99 = {{ $value | printf \"%.2f\" }}s"
+
+      # Errors: 5xx 비율이 1%를 넘으면
+      - alert: HighErrorRate
+        expr: |
+          sum by (path) (rate(http_requests_total{status=~"5.."}[1m]))
+          /
+          sum by (path) (rate(http_requests_total[1m]))
+          > 0.01
+        for: 30s
+        labels:
+          severity: critical
+        annotations:
+          summary: "{{ $labels.path }} 5xx 비율이 1%를 넘었습니다"
+          description: "현재 에러율 = {{ $value | humanizePercentage }}"
+
+      # 병목의 직접 증거: 커넥션 대기가 길어지고 있다
+      - alert: DBPoolSaturated
+        expr: |
+          histogram_quantile(0.99, rate(db_pool_wait_seconds_bucket[1m])) > 0.1
+        for: 30s
+        labels:
+          severity: warning
+        annotations:
+          summary: "DB 커넥션 풀 대기가 길어지고 있습니다"
+          description: "커넥션 획득 p99 대기 = {{ $value | printf \"%.2f\" }}s"

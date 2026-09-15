@@ -1,0 +1,12 @@
+global:
+  scrape_interval: 5s
+  evaluation_interval: 5s
+
+rule_files:
+  - /etc/prometheus/alerts.yml
+
+scrape_configs:
+  - job_name: traffic-lab
+    static_configs:
+      # 컨테이너 안에서 맥 호스트를 가리키는 특수 주소
+      - targets: ['host.docker.internal:8080']
